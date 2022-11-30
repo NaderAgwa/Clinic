@@ -51,7 +51,7 @@ class Patient:
 
 def printResult(times, remaining):
     averageWaitTime = sum(times)/len(times)/60
-    print("Average Waiting Time : ", "{:.2f}".format(averageWaitTime), " mins \t , Untreated Patients : ", remaining)
+    print("Average Waiting Time : ", "{:.3f}".format(averageWaitTime), " mins \t , Untreated Patients : ", remaining)
 
 def simulate(totalSimulationTime, rate):
     totalSimulationTime *= 3600
