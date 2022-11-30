@@ -1,0 +1,68 @@
+class Doctor:
+
+    def __init__(self, rate):
+        self.patientRate = rate
+        self.timeRemaining = 0
+        self.currentPatient = None
+
+    def enterNextPatient(self, patient):
+        self.currentPatient = patient
+        self.timeRemaining = round(patient.getAge()/self.patientRate) * 60
+
+    def busy(self):
+        return self.currentPatient is not None
+
+    def tick(self):
+        if self.currentPatient is not None:
+            self.timeRemaining -= 1
+            if self.timeRemaining == 0:
+                self.currentPatient = None
+
+class Patient:
+    def __init__(self, time):
+        self.arrivalTime = time
+        self.age = random.randrange(20, 61)
+
+    def getAge(self):
+        return self.age
+
+    def getArrivalTime(self):
+        return self.arrivalTime
+
+    def waitTime(self, currentSec):
+        return currentSec - self.arrivalTime
+
+from queue import Queue
+from printer import *
+from task import *
+import random
+def printResult(times, remaining):
+    averageWaitTime = sum(times)/len(times)/60
+    print("Average Waiting Time : ", "{:.2f}".format(averageWaitTime), " mins \t , Untreated Patients : ", remaining)
+
+def simulate(totalSimulationTime, rate):
+    totalSimulationTime *= 3600
+    clinicDoctor = Doctor(rate)
+    patientQueue = Queue()
+    waitingTimes = []
+
+    for currentSec in range(totalSimulationTime):
+        if random.randrange(1, 361) == 360:
+            newPatient = Patient(currentSec)
+            patientQueue.enqueue(newPatient)
+        if (not clinicDoctor.busy()) and (not patientQueue.isEmpty()):
+            nextPatient = patientQueue.dequeue()
+            clinicDoctor.enterNextPatient(nextPatient)
+            waitingTimes.append(nextPatient.waitTime(currentSec))
+        clinicDoctor.tick()
+    printResult(waitingTimes, patientQueue.size())
+
+
+print("Incase of (Age/5) : ")
+for i in range(10):
+    simulate(4, 5)
+print("=" * 70)
+
+print("Incase of (Age/10) : ")
+for i in range(10):
+    simulate(4, 10)
