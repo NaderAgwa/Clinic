@@ -32,9 +32,6 @@ class Patient:
     def waitTime(self, currentSec):
         return currentSec - self.arrivalTime
 
-from queue import Queue
-from printer import *
-from task import *
 import random
 def printResult(times, remaining):
     averageWaitTime = sum(times)/len(times)/60
