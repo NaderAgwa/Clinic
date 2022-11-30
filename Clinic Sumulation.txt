@@ -1,3 +1,20 @@
+import random
+class Queue:
+ def __init__(self):
+    self.items = []
+
+ def isEmpty(self):
+    return self.items == []
+
+ def enqueue(self, item):
+    self.items.insert(0, item)
+
+ def dequeue(self):
+    return self.items.pop()
+
+ def size(self):
+    return len(self.items)
+    
 class Doctor:
 
     def __init__(self, rate):
@@ -32,7 +49,6 @@ class Patient:
     def waitTime(self, currentSec):
         return currentSec - self.arrivalTime
 
-import random
 def printResult(times, remaining):
     averageWaitTime = sum(times)/len(times)/60
     print("Average Waiting Time : ", "{:.2f}".format(averageWaitTime), " mins \t , Untreated Patients : ", remaining)
